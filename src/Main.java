@@ -9,9 +9,9 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=600, HEIGHT=600;
+    public static final int WIDTH=1100, HEIGHT=800;
     private Timer timer;
-
+    private ArrayList<Sprite> zombies;
 
 
     public Main(){
@@ -20,11 +20,17 @@ public class Main extends JPanel{
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
         setKeyListener();
+
+        zombies = new ArrayList<Sprite>();
+
+        zombies.add(new RegZ());
+        update();
+
+
     }
 
     public void update() {
 
-//hi
         repaint();
     }
 
@@ -33,7 +39,11 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        for(Sprite z: zombies){
 
+            z.draw(g2);
+
+        }
 
 
     }
