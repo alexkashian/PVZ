@@ -22,8 +22,8 @@ public class Sprite {
     public Sprite(int x, int y, int dir) {
         this.loc = new Point(x, y);
         this.dir = dir;
-        setPic("blank.png", NORTH);  //Assumes pic is oriented NORTH by default
-        speed = getBoundingRectangle().height;  //moves one height's worth by default.
+//        setPic("blank.png", NORTH);  //Assumes pic is oriented NORTH by default
+//        speed = getBoundingRectangle().height;  //moves one height's worth by default.
 
         id = nextID;
         nextID++;

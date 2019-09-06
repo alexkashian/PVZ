@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,14 +9,20 @@ public class Main extends JPanel{
     public static final int WIDTH=1100, HEIGHT=800;
     private Timer timer;
     private ArrayList<Sprite> zombies;
+    private ArrayList <Sprite> plants;
+
 
 
     public Main(){
 
+        plants = new ArrayList<Sprite>();
 
         timer = new Timer(1000 / 60, e -> update());
         timer.start();
         setKeyListener();
+        mouseListener();
+
+
 
         zombies = new ArrayList<Sprite>();
 
@@ -31,6 +34,7 @@ public class Main extends JPanel{
 
     public void update() {
 
+//hi
         repaint();
     }
 
@@ -45,7 +49,49 @@ public class Main extends JPanel{
 
         }
 
+        for (Sprite plant : plants) {
+            plant.draw(g2);
+        }
 
+
+
+
+    }
+
+    public void mouseListener(){
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int c = e.getX()/110;
+                int r = e.getY()/125;
+
+                plants.add(new PeaShooter(r,c,Sprite.EAST));
+
+                repaint();
+
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
     }
 
     public void setKeyListener(){
@@ -64,6 +110,7 @@ public class Main extends JPanel{
             }
         });
     }
+
 
     public static void main(String[] args) {
 
