@@ -6,9 +6,10 @@ import java.util.Arrays;
 
 public class Main extends JPanel{
 
-    public static final int WIDTH=600, HEIGHT=600;
+    public static final int WIDTH=1000, HEIGHT=800;
     private Timer timer;
     private ArrayList <Sprite> plants;
+    private int selectedPlant = 0;
 
 
 
@@ -22,7 +23,9 @@ public class Main extends JPanel{
         mouseListener();
 
 
+
     }
+    public static final int SUNFLOWER =1,PEASHOOTER =2, SHOVEL =0 ;
 
     public void update() {
 
@@ -34,6 +37,7 @@ public class Main extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
 
         for (Sprite plant : plants) {
             plant.draw(g2);
@@ -56,11 +60,35 @@ public class Main extends JPanel{
                 int c = e.getX()/110;
                 int r = e.getY()/125;
 
-                plants.add(new PeaShooter(r,c,Sprite.EAST));
+                boolean isFull = true;
+
+                for (Sprite plant : plants) {
+                    if (r == plant.getLoc().y/125 && c== plant.getLoc().x/110){
+                        isFull = false;
+                    }
+                }
+
+                if (r>0 && isFull == true) {
+                    if (selectedPlant == SUNFLOWER) {
+                        plants.add(new Sunflower(r, c, Sprite.EAST));
+                    }
+
+                    if (selectedPlant == PEASHOOTER) {
+                        plants.add(new PeaShooter(r, c, Sprite.EAST));
+                    }
+                }
+
+                    if (selectedPlant == SHOVEL) {
+                        for (int i = 0; i <plants.size() ; i++) {
+                            if (plants.get(i).getLoc().y/125 == r && plants.get(i).getLoc().x/110 == c){
+                                plants.remove(i);
+                            }
+
+                        }
+                    }
+
 
                 repaint();
-
-
             }
 
             @Override
@@ -88,6 +116,17 @@ public class Main extends JPanel{
             }
             @Override
             public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_1) {
+                    selectedPlant = SUNFLOWER;
+                }
+                if(e.getKeyCode() == KeyEvent.VK_2) {
+                    selectedPlant = PEASHOOTER;
+                }
+
+                if(e.getKeyCode() == KeyEvent.VK_0) {
+                    selectedPlant = SHOVEL;
+                }
+
 
             }
             @Override
