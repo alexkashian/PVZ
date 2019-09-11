@@ -4,7 +4,7 @@ public class Sunflower extends Sprite{
         setPic("sun.png", EAST);
         setSpeed(0); //GUESS?!
     }
-
+    //force commit
     @Override
     public void update() {
         super.update();

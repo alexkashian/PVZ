@@ -17,7 +17,7 @@ public class Sprite {
     private BufferedImage pic; //put the file in the res folder.
     private int speed; //Number of pixels moved each frame.
     private int id;
-
+//force commit
 
     public Sprite(int x, int y, int dir) {
         this.loc = new Point(x, y);

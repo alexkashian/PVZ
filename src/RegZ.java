@@ -3,7 +3,7 @@ import java.net.URL;
 import java.util.WeakHashMap;
 
 public class RegZ extends Sprite {
-
+//force commit
 //    private int level;
 
     public RegZ(int x) {

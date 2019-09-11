@@ -5,7 +5,7 @@ public class PeaShooter extends Sprite{
         super((c*110)+15, (r*125)+20, direction);
         setPic("P.png", EAST);
         setSpeed(0); //GUESS?!
-
+//force commit
 
     }
 
