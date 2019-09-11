@@ -1,14 +1,11 @@
 public class PeaShooter extends Sprite{
 
-    private int r,c;
 
     public PeaShooter(int r, int c, int direction) {
-        super(c*110, r*125, direction);
+        super((c*110)+15, (r*125)+20, direction);
         setPic("P.png", EAST);
         setSpeed(0); //GUESS?!
 
-        this.r = r;
-        this.c = c;
 
     }
 
@@ -18,11 +15,4 @@ public class PeaShooter extends Sprite{
 
     }
 
-    public int getR() {
-        return r;
-    }
-
-    public int getC() {
-        return c;
-    }
 }

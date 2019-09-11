@@ -59,6 +59,20 @@ public class Main extends JPanel{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        g2.setColor(new Color(30,145,80));
+        g2.fillRect(0,110,1000,690);
+
+        for (int r = 0; r <5 ; r++) {
+            for (int c = 0; c < 9; c++) {
+                if ((r+c) % 2 == 0){
+                    g2.setColor(Color.green);
+                    g2.fillRect(c*110,(r*125) + 125, 110,125);
+                }
+
+            }
+
+        }
+
         for(Sprite z: zombies){
 
             z.draw(g2);
@@ -120,8 +134,6 @@ public class Main extends JPanel{
 
 
                 repaint();
-
-
             }
 
             @Override
