@@ -14,7 +14,7 @@ public class Main extends JPanel{
     private ArrayList<Sprite> zombies;
     private ArrayList <Sprite> plants;
     private int selectedPlant = 0;
-    private int j,x,sunTimer, sunTot;
+    private int j,x,sunTimer, sunTot,sunflowerCount;
     private BufferedImage sun,peashoot,sunflower,snowpea,doublep;
 
 
@@ -56,15 +56,18 @@ public class Main extends JPanel{
 
 
         sunTot = 50;
+        sunflowerCount = 0;
 
-        timer = new Timer(1000 / 60, e -> update());
+        timer = new Timer(1000 / 30, e -> update());
         timer.start();
         setKeyListener();
         mouseListener();
 
-        j = 0;
+        j = 1;
         zombies = new ArrayList<Sprite>();
-
+        zombies.add(new RegZ(0));
+        zombies.add(new RegZ(1));
+        zombies.add(new RegZ(2));
 
         while(j<5){
             x = j*100;
@@ -84,8 +87,12 @@ public class Main extends JPanel{
         sunTimer ++;
 
 
-        if(sunTimer % 300 ==0){
+        if(sunTimer % 200 ==0){
             sunTot += 25;
+        }
+
+        if(sunTimer % 400 ==0){
+            sunTot += sunflowerCount*25;
         }
 
         repaint();
@@ -176,11 +183,21 @@ public class Main extends JPanel{
 
                 if (r>0 && isFull == true) {
                     if (selectedPlant == SUNFLOWER) {
-                        plants.add(new Sunflower(r, c, Sprite.EAST));
+
+                        while (sunTot>=50){
+                            plants.add(new Sunflower(r, c, Sprite.EAST));
+                            sunflowerCount += 1;
+                            sunTot -= 50;
+                        }
+
                     }
 
                     if (selectedPlant == PEASHOOTER) {
-                        plants.add(new PeaShooter(r, c, Sprite.EAST));
+
+                        while(sunTot>=100){
+                            plants.add(new PeaShooter(r, c, Sprite.EAST));
+                            sunTot -= 100;
+                        }
                     }
 
                     if (selectedPlant == SNOWPEA) {
@@ -248,8 +265,6 @@ public class Main extends JPanel{
                 if(e.getKeyCode() == KeyEvent.VK_0) {
                     selectedPlant = SHOVEL;
                 }
-
-
 
             }
             @Override

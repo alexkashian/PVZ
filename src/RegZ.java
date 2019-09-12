@@ -7,7 +7,7 @@ public class RegZ extends Sprite {
 //    private int level;
 
     public RegZ(int x) {
-        super(1200, 100, WEST);
+        super(1200, 120+(x*125), WEST);
         setPic("regZ.png",WEST);
 
     }
