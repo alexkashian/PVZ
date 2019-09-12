@@ -1,6 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,11 +15,45 @@ public class Main extends JPanel{
     private ArrayList <Sprite> plants;
     private int selectedPlant = 0;
     private int j,x,sunTimer, sunTot;
+    private BufferedImage sun,peashoot,sunflower,snowpea,doublep;
 
 
     public Main(){
         //force commit
         plants = new ArrayList<Sprite>();
+
+        //set sun image for sun counter
+        try {
+            sun = ImageIO.read(new File("./res/sun.png"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //set peashooter image for 2
+        try {
+            peashoot = ImageIO.read(new File("./res/peashooter.png"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //set sunflower image for 1
+        try {
+            sunflower = ImageIO.read(new File("./res/sunflower.png"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //set snowpea image for 3
+        try {
+            snowpea = ImageIO.read(new File("./res/snowpea.png"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //set double peashooter for 4
+        try {
+            doublep = ImageIO.read(new File("./res/doublep.png"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         sunTot = 50;
 
@@ -40,7 +77,7 @@ public class Main extends JPanel{
 
 
     }
-    public static final int SUNFLOWER =1,PEASHOOTER =2, SHOVEL =0 ;
+    public static final int SUNFLOWER =1,PEASHOOTER =2, SNOWPEA = 3, DOUBLE =4, SHOVEL =0 ;
 
     public void update() {
         //60 per second
@@ -83,12 +120,36 @@ public class Main extends JPanel{
         for (Sprite plant : plants) {
             plant.draw(g2);
         }
-
+        // SUN
         g2.setColor(Color.BLACK);
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 20);
         g2.setFont(f);
         g2.drawString("Sun" + " " + sunTot, 20, 20);
+        g2.drawImage(sun,15,25,null);
 
+       //SUNFLOWER
+        g2.setColor(Color.BLACK);
+        g2.setFont(f);
+        g2.drawString("1" , 180, 100);
+        g2.drawImage(sunflower,115,15,null);
+
+        //PEASHOOTER
+        g2.setColor(Color.BLACK);
+        g2.setFont(f);
+        g2.drawString("2" , 290, 100);
+        g2.drawImage(peashoot,225,22,null);
+
+        //SNOWPEA
+        g2.setColor(Color.BLACK);
+        g2.setFont(f);
+        g2.drawString("3" , 400, 100);
+        g2.drawImage(snowpea,335,12,null);
+
+        //DOUBLE
+        g2.setColor(Color.BLACK);
+        g2.setFont(f);
+        g2.drawString("4" , 510, 100);
+        g2.drawImage(doublep,435,10,null);
 
 
     }
@@ -120,6 +181,14 @@ public class Main extends JPanel{
 
                     if (selectedPlant == PEASHOOTER) {
                         plants.add(new PeaShooter(r, c, Sprite.EAST));
+                    }
+
+                    if (selectedPlant == SNOWPEA) {
+                        plants.add(new SnowPea(r, c, Sprite.EAST));
+                    }
+
+                    if (selectedPlant == DOUBLE) {
+                        plants.add(new DoublePea(r, c, Sprite.EAST));
                     }
                 }
 
@@ -168,9 +237,18 @@ public class Main extends JPanel{
                     selectedPlant = PEASHOOTER;
                 }
 
+                if(e.getKeyCode() == KeyEvent.VK_3) {
+                    selectedPlant = SNOWPEA;
+                }
+
+                if(e.getKeyCode() == KeyEvent.VK_4) {
+                    selectedPlant = DOUBLE;
+                }
+
                 if(e.getKeyCode() == KeyEvent.VK_0) {
                     selectedPlant = SHOVEL;
                 }
+
 
 
             }
