@@ -70,18 +70,6 @@ public class Main extends JPanel{
         zombies.add(new RegZ(2));
 
         projectiles = new ArrayList<Sprite>();
-//        projectiles.add(new Projectile("snow",100,100));
-
-
-        while(j<5){
-            x = j*100;
-            zombies.add(new RegZ(x));
-
-            j += 1;
-        }
-
-
-
 
     }
     public static final int SUNFLOWER =1,PEASHOOTER =2, SNOWPEA = 3, DOUBLE =4, SHOVEL =0 ;
@@ -111,26 +99,36 @@ public class Main extends JPanel{
                 //while the type isn't null
 
                 if (p.getType()!=null){
-                    projectiles.add(new Projectile(p.getType(),x,y));
+
+                    if (p instanceof DoublePea){
+                        projectiles.add(new Projectile(p.getType(),x,y));
+                        projectiles.add(new Projectile(p.getType(),x-13,y));
+
+                    }
+
+                    else{
+                        projectiles.add(new Projectile(p.getType(),x,y));
+                    }
                 }
             }
         }
 
-        if(projectTimer % 210 == 0){
-
-            for(Sprite p: plants){
-
-                int x = p.getLoc().x;
-                int y = p.getLoc().y;
-
-                if (p instanceof DoublePea){
-                    projectiles.add(new Projectile(p.getType(),x,y));
-                }
-
-
-            }
-
-        }
+//        if(projectTimer % 200 == 0){
+//
+//            for(Sprite p: plants){
+//
+//                int x = p.getLoc().x;
+//                int y = p.getLoc().y;
+//
+//                if (p instanceof DoublePea){
+//                    projectiles.add(new Projectile(p.getType(),x,y));
+//                    projectiles.add(new Projectile(p.getType(),x-13,y));
+//
+//                }
+//
+//            }
+//
+//        }
 
         repaint();
     }

@@ -1,7 +1,7 @@
 public class Projectile extends Sprite{
 
     public Projectile(String type, int x, int y) {
-        super(x+10, y+10, EAST);
+        super(x+15, y+10, EAST);
 
         if (type=="snow"){
             setPic("snowProj.png",EAST);
@@ -16,7 +16,7 @@ public class Projectile extends Sprite{
 
     @Override
     public void update() {
-        setSpeed(3);
+        setSpeed(4);
         super.update();
     }
 
