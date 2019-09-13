@@ -4,6 +4,7 @@ public class DoublePea extends Sprite{
         super((c*110)+15, (r*125)+20, direction);
         setPic("doublep.png", EAST);
         setSpeed(0); //GUESS?!
+        setType("reg");
 //force commit
 
     }
@@ -13,4 +14,9 @@ public class DoublePea extends Sprite{
         super.update();
 
     }
+
+    public String type() {
+        return "reg";
+    }
+
 }

@@ -11,10 +11,10 @@ public class Main extends JPanel{
 
     public static final int WIDTH=1000, HEIGHT=800;
     private Timer timer;
-    private ArrayList<Sprite> zombies;
+    private ArrayList<Sprite> zombies, projectiles;
     private ArrayList <Sprite> plants;
     private int selectedPlant = 0;
-    private int j,x,sunTimer, sunTot,sunflowerCount;
+    private int j,x,sunTimer, sunTot,sunflowerCount, projectTimer;
     private BufferedImage sun,peashoot,sunflower,snowpea,doublep;
 
 
@@ -55,7 +55,7 @@ public class Main extends JPanel{
         }
 
 
-        sunTot = 50;
+        sunTot = 500;
         sunflowerCount = 0;
 
         timer = new Timer(1000 / 30, e -> update());
@@ -68,6 +68,10 @@ public class Main extends JPanel{
         zombies.add(new RegZ(0));
         zombies.add(new RegZ(1));
         zombies.add(new RegZ(2));
+
+        projectiles = new ArrayList<Sprite>();
+//        projectiles.add(new Projectile("snow",100,100));
+
 
         while(j<5){
             x = j*100;
@@ -86,6 +90,7 @@ public class Main extends JPanel{
         //60 per second
         sunTimer ++;
 
+        projectTimer ++;
 
         if(sunTimer % 200 ==0){
             sunTot += 25;
@@ -93,6 +98,38 @@ public class Main extends JPanel{
 
         if(sunTimer % 400 ==0){
             sunTot += sunflowerCount*25;
+        }
+
+
+        if(projectTimer % 200 ==0){
+
+            for (Sprite p: plants){
+
+                int x = p.getLoc().x;
+                int y = p.getLoc().y;
+
+                //while the type isn't null
+
+                if (p.getType()!=null){
+                    projectiles.add(new Projectile(p.getType(),x,y));
+                }
+            }
+        }
+
+        if(projectTimer % 210 == 0){
+
+            for(Sprite p: plants){
+
+                int x = p.getLoc().x;
+                int y = p.getLoc().y;
+
+                if (p instanceof DoublePea){
+                    projectiles.add(new Projectile(p.getType(),x,y));
+                }
+
+
+            }
+
         }
 
         repaint();
@@ -124,12 +161,22 @@ public class Main extends JPanel{
 
         }
 
+        for (Sprite project : projectiles) {
+
+            project.update();
+            project.draw(g2);
+
+        }
+
         for (Sprite plant : plants) {
             plant.draw(g2);
         }
+
+
         // SUN
         g2.setColor(Color.BLACK);
         Font f = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+        Font f2 = new Font(Font.SANS_SERIF, Font.BOLD, 10);
         g2.setFont(f);
         g2.drawString("Sun" + " " + sunTot, 20, 20);
         g2.drawImage(sun,15,25,null);
@@ -137,25 +184,33 @@ public class Main extends JPanel{
        //SUNFLOWER
         g2.setColor(Color.BLACK);
         g2.setFont(f);
-        g2.drawString("1" , 180, 100);
+        g2.drawString("1" , 180, 25);
+        g2.setFont(f2);
+        g2.drawString("$50" , 180, 100);
         g2.drawImage(sunflower,115,15,null);
 
         //PEASHOOTER
         g2.setColor(Color.BLACK);
         g2.setFont(f);
-        g2.drawString("2" , 290, 100);
+        g2.drawString("2" , 290, 25);
+        g2.setFont(f2);
+        g2.drawString("$100" , 290, 100);
         g2.drawImage(peashoot,225,22,null);
 
         //SNOWPEA
         g2.setColor(Color.BLACK);
         g2.setFont(f);
-        g2.drawString("3" , 400, 100);
+        g2.drawString("3" , 400, 25);
+        g2.setFont(f2);
+        g2.drawString("$175" , 400, 100);
         g2.drawImage(snowpea,335,12,null);
 
         //DOUBLE
         g2.setColor(Color.BLACK);
         g2.setFont(f);
-        g2.drawString("4" , 510, 100);
+        g2.drawString("4" , 510, 25);
+        g2.setFont(f2);
+        g2.drawString("$200" , 510, 100);
         g2.drawImage(doublep,435,10,null);
 
 
@@ -170,6 +225,7 @@ public class Main extends JPanel{
 
             @Override
             public void mousePressed(MouseEvent e) {
+
                 int c = e.getX()/110;
                 int r = e.getY()/125;
 
@@ -184,7 +240,7 @@ public class Main extends JPanel{
                 if (r>0 && isFull == true) {
                     if (selectedPlant == SUNFLOWER) {
 
-                        while (sunTot>=50){
+                        if (sunTot>=50){
                             plants.add(new Sunflower(r, c, Sprite.EAST));
                             sunflowerCount += 1;
                             sunTot -= 50;
@@ -194,18 +250,28 @@ public class Main extends JPanel{
 
                     if (selectedPlant == PEASHOOTER) {
 
-                        while(sunTot>=100){
+                        if (sunTot>=100){
                             plants.add(new PeaShooter(r, c, Sprite.EAST));
                             sunTot -= 100;
                         }
                     }
 
                     if (selectedPlant == SNOWPEA) {
-                        plants.add(new SnowPea(r, c, Sprite.EAST));
+
+                        if (sunTot>=175){
+                            plants.add(new SnowPea(r, c, Sprite.EAST));
+                            sunTot -= 175;
+                        }
+
                     }
 
                     if (selectedPlant == DOUBLE) {
-                        plants.add(new DoublePea(r, c, Sprite.EAST));
+
+                        if (sunTot>=200){
+                            plants.add(new DoublePea(r, c, Sprite.EAST));
+                            sunTot -= 200;
+                        }
+
                     }
                 }
 

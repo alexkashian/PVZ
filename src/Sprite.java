@@ -17,6 +17,7 @@ public class Sprite {
     private BufferedImage pic; //put the file in the res folder.
     private int speed; //Number of pixels moved each frame.
     private int id;
+    private String type;
 //force commit
 
     public Sprite(int x, int y, int dir) {
@@ -54,7 +55,7 @@ public class Sprite {
         g2.rotate(rotationRequired, loc.x + halfWidth, loc.y + halfHeight);
         g2.drawImage(pic, loc.x, loc.y, null);
         g2.rotate(-rotationRequired, loc.x + halfWidth, loc.y + halfHeight);
-        g2.draw(getBoundingRectangle());
+        //g2.draw(getBoundingRectangle());
     }
 
     /**
@@ -223,5 +224,14 @@ public class Sprite {
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         setPic(op.filter(getPic(), null));
     }
+
+    public void setType(String entertype){
+        type = entertype;
+    }
+
+    public String getType() {
+        return type;
+    }
+
 
 }
