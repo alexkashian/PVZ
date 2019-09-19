@@ -14,7 +14,7 @@ public class Main extends JPanel{
     private ArrayList<Sprite> zombies, projectiles;
     private ArrayList <Sprite> plants;
     private int selectedPlant = 0;
-    private int j,x,sunTimer, sunTot,sunflowerCount, projectTimer;
+    private int j,x,sunTimer, zombietimer, sunTot,sunflowerCount, projectTimer;
     private BufferedImage sun,peashoot,sunflower,snowpea,doublep;
 
 
@@ -58,18 +58,21 @@ public class Main extends JPanel{
         sunTot = 500;
         sunflowerCount = 0;
 
-        timer = new Timer(1000 / 30, e -> update());
+        timer = new Timer(1000 / 20, e -> update());
         timer.start();
         setKeyListener();
         mouseListener();
 
-        j = 1;
+
         zombies = new ArrayList<Sprite>();
         zombies.add(new RegZ(0));
         zombies.add(new RegZ(1));
         zombies.add(new RegZ(2));
 
         projectiles = new ArrayList<Sprite>();
+//        projectiles.add(new Projectile("snow",100,100));
+
+
 
     }
     public static final int SUNFLOWER =1,PEASHOOTER =2, SNOWPEA = 3, DOUBLE =4, SHOVEL =0 ;
@@ -113,24 +116,57 @@ public class Main extends JPanel{
             }
         }
 
-//        if(projectTimer % 200 == 0){
-//
-//            for(Sprite p: plants){
-//
-//                int x = p.getLoc().x;
-//                int y = p.getLoc().y;
-//
-//                if (p instanceof DoublePea){
-//                    projectiles.add(new Projectile(p.getType(),x,y));
-//                    projectiles.add(new Projectile(p.getType(),x-13,y));
-//
-//                }
-//
-//            }
-//
-//        }
 
+
+
+        for (Sprite z : zombies) {
+            for (int i = 0; i < projectiles.size(); i++) {
+                if (projectiles.get(i).intersects(z)) {
+                    projectiles.remove(i);
+                    z.setHealth(z.getHealth() - 1);
+                }
+            }
+        }
+
+        zombietimer ++;
+
+        for (Sprite z : zombies) {
+            for (Sprite p : plants)
+                if (z.intersects(p)){
+                    z.setSpeed(0);
+                    ((RegZ)z).increaseTimer();
+                    if (((RegZ)z).getAttackTimer()%40 == 0){
+                        p.setHealth(p.getHealth() - 1);
+                        if (p.getHealth() == 0){
+                            z.setSpeed(1);
+
+                        }
+                    }
+
+                }
+        }
+
+        for (int i = 0; i <zombies.size() ; i++) {
+            if (zombies.get(i).getHealth() == 0){
+                zombies.remove(i);
+            }
+
+        }
+
+        for (int i = 0; i <plants.size() ; i++) {
+            if (plants.get(i).getHealth() == 0){
+                plants.remove(i);
+                i--;
+            }
+
+        }
+
+        for(Sprite z: zombies)
+            z.update();
+        for(Sprite p: projectiles)
+            p.update();
         repaint();
+
     }
 
     @Override
@@ -155,13 +191,11 @@ public class Main extends JPanel{
         for(Sprite z: zombies){
 
             z.draw(g2);
-            z.update();
 
         }
 
         for (Sprite project : projectiles) {
 
-            project.update();
             project.draw(g2);
 
         }

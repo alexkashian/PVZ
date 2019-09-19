@@ -1,7 +1,7 @@
 public class SnowPea extends Sprite {
 
     public SnowPea(int r, int c, int direction) {
-        super((c*110)+15, (r*125)+20, direction);
+        super((c*110)+15, (r*125)+20, direction,5);
         setPic("snowpea.png", EAST);
         setSpeed(0); //GUESS?!
         setType("snow");

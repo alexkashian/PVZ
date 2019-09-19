@@ -17,12 +17,14 @@ public class Sprite {
     private BufferedImage pic; //put the file in the res folder.
     private int speed; //Number of pixels moved each frame.
     private int id;
+    private int health;
     private String type;
 //force commit
 
-    public Sprite(int x, int y, int dir) {
+    public Sprite(int x, int y, int dir,int health) {
         this.loc = new Point(x, y);
         this.dir = dir;
+        this.health = health;
 //        setPic("blank.png", NORTH);  //Assumes pic is oriented NORTH by default
 //        speed = getBoundingRectangle().height;  //moves one height's worth by default.
 
@@ -55,7 +57,7 @@ public class Sprite {
         g2.rotate(rotationRequired, loc.x + halfWidth, loc.y + halfHeight);
         g2.drawImage(pic, loc.x, loc.y, null);
         g2.rotate(-rotationRequired, loc.x + halfWidth, loc.y + halfHeight);
-        //g2.draw(getBoundingRectangle());
+        g2.draw(getBoundingRectangle());
     }
 
     /**
@@ -145,6 +147,14 @@ public class Sprite {
 
     public void setPic(BufferedImage pic) {
         this.pic = pic;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     /**

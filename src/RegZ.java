@@ -5,16 +5,30 @@ import java.util.WeakHashMap;
 public class RegZ extends Sprite {
 //force commit
 //    private int level;
+    private int attackTimer = 0;
 
     public RegZ(int x) {
-        super(1200, 120+(x*125), WEST);
+        super(1200, 120+(x*125), WEST,5);
         setPic("regZ.png",WEST);
+        setSpeed(2);
+
+    }
+
+    public int getAttackTimer() {
+        return attackTimer;
+    }
+
+    public void setAttackTimer(int attackTimer) {
+        this.attackTimer = attackTimer;
+    }
+
+    public void increaseTimer(){
+        attackTimer ++;
 
     }
 
     @Override
     public void update() {
-        setSpeed(1);
         super.update();
     }
 
