@@ -15,7 +15,7 @@ public class Sprite {
     private Point loc; //top left corner of this Sprite. Note loc.x and loc.y are the easy way to access the point.
     private int dir, picOrientation; //dir is the current direction in degrees.  See the constants below.
     private BufferedImage pic; //put the file in the res folder.
-    private int speed; //Number of pixels moved each frame.
+    private double speed; //Number of pixels moved each frame.
     private int id;
     private int health;
     private String type;
@@ -217,14 +217,14 @@ public class Sprite {
     /**
      * Returns the current speed of this Sprite
      */
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
     /**
      * Changes the speed of this Sprite
      */
-    public void setSpeed(int newSpeed) {
+    public void setSpeed(double newSpeed) {
         speed = newSpeed;
     }
 

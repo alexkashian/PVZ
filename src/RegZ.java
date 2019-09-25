@@ -10,7 +10,7 @@ public class RegZ extends Sprite {
     public RegZ(int x) {
         super(1200, 120+(x*125), WEST,5);
         setPic("regZ.png",WEST);
-        setSpeed(2);
+        setSpeed(1.5);
 
     }
 
@@ -27,10 +27,6 @@ public class RegZ extends Sprite {
 
     }
 
-    @Override
-    public void update() {
-        super.update();
-    }
 
 
 

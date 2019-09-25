@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Arrays;
 
 public class Main extends JPanel{
@@ -13,44 +14,75 @@ public class Main extends JPanel{
     private Timer timer;
     private ArrayList<Sprite> zombies, projectiles;
     private ArrayList <Sprite> plants;
+    private ArrayList zerotofour;
     private int selectedPlant = 0;
-    private int j,x,sunTimer,sunTot,sunflowerCount, projectTimer;
+    private int sunTimer, sunTot,sunflowerCount, projectTimer, levelTimer;
     private BufferedImage sun,peashoot,sunflower,snowpea,doublep;
+    private boolean over;
+    private Level level;
 
 
-    public Main(){
+    public Main() {
         //force commit
         plants = new ArrayList<Sprite>();
+
+        zombies = new ArrayList<Sprite>();
+
+        projectiles = new ArrayList<Sprite>();
+
+        over = false;
+
+        level = new Level(1);
+
+        if (level.getLevel()==1){
+
+            zerotofour = new ArrayList();
+
+            for (int i = 0; i < 5; i++) {
+                zerotofour.add(i);
+            }
+
+            Collections.shuffle(zerotofour);
+
+            int[] randomThree = new int[3];
+
+            for (int i = 0; i < 3; i++) {
+                randomThree[i] = (int)zerotofour.get(i);
+            }
+
+            for (int i = 0; i < randomThree.length; i++) {
+                zombies.add(new RegZ(randomThree[i]));
+            }}
 
         //set sun image for sun counter
         try {
             sun = ImageIO.read(new File("./res/sun.png"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //set peashooter image for 2
         try {
             peashoot = ImageIO.read(new File("./res/peashooter.png"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //set sunflower image for 1
         try {
             sunflower = ImageIO.read(new File("./res/sunflower.png"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //set snowpea image for 3
         try {
             snowpea = ImageIO.read(new File("./res/snowpea.png"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         //set double peashooter for 4
         try {
             doublep = ImageIO.read(new File("./res/doublep.png"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -64,18 +96,6 @@ public class Main extends JPanel{
         mouseListener();
 
 
-        zombies = new ArrayList<Sprite>();
-
-
-        zombies.add(new RegZ(0));
-        zombies.add(new RegZ(1));
-        zombies.add(new RegZ(2));
-
-        projectiles = new ArrayList<Sprite>();
-//        projectiles.add(new Projectile("snow",100,100));
-
-
-
     }
     public static final int SUNFLOWER =1,PEASHOOTER =2, SNOWPEA = 3, DOUBLE =4, SHOVEL =0 ;
 
@@ -85,11 +105,13 @@ public class Main extends JPanel{
 
         projectTimer ++;
 
-        if(sunTimer % 200 ==0){
+        levelTimer ++;
+
+        if(sunTimer % 100 ==0){
             sunTot += 25;
         }
 
-        if(sunTimer % 400 ==0){
+        if(sunTimer % 200 ==0){
             sunTot += sunflowerCount*25;
         }
 
@@ -118,6 +140,25 @@ public class Main extends JPanel{
             }
         }
 
+        for (Sprite z: zombies){
+
+            int x = z.getBoundingRectangle().x;
+
+            if(x==0){
+                over = true;
+                timer.stop();
+            }
+
+            z.update();
+        }
+
+        for (Sprite p: plants){
+            p.update();
+        }
+
+        for(Sprite proj: projectiles){
+            proj.update();
+        }
 
 
 
@@ -175,6 +216,47 @@ public class Main extends JPanel{
             z.update();
         for(Sprite p: projectiles)
             p.update();
+
+        if (zombies.size()==0){
+            level.Levelup();
+//            levelTimer = 0;
+        }
+
+        if(level.getLevel()==2){
+
+            //random spawn 4
+            Collections.shuffle(zerotofour);
+
+            int[] randomFour = new int[4];
+
+            for (int i = 0; i < 4; i++) {
+                randomFour[i] = (int)zerotofour.get(i);
+            }
+
+            for (int i = 0; i < randomFour.length; i++) {
+                zombies.add(new RegZ(randomFour[i]));
+            }
+
+            // spawn 5 in all rows after 15 sec
+//            if (levelTimer == 900){
+//                for (int i = 0; i < 5; i++) {
+//                    zombies.add(new RegZ(i));
+//                }
+//
+//            }
+
+
+
+        }
+
+        else if(level.getLevel()==3){
+            //WHAT HAPPENS ON LEVEL 3
+        }
+
+        else if(level.getLevel()==4){
+            //WHAT HAPPENS ON LEVEL 4
+        }
+
         repaint();
 
     }
@@ -201,6 +283,7 @@ public class Main extends JPanel{
         for(Sprite z: zombies){
 
             z.draw(g2);
+
 
         }
 
@@ -254,6 +337,10 @@ public class Main extends JPanel{
         g2.setFont(f2);
         g2.drawString("$200" , 510, 100);
         g2.drawImage(doublep,435,10,null);
+
+        if (over==true){
+            g2.drawString("BRAINS! GAME OVER", WIDTH/2, HEIGHT/2);
+        }
 
 
     }
